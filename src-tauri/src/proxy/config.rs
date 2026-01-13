@@ -1,4 +1,3 @@
-// 2026-1-13 修复claude中反复压缩的问题
 use serde::{Deserialize, Serialize};
 // use std::path::PathBuf;
 use std::collections::HashMap;
@@ -131,6 +130,11 @@ pub struct ExperimentalConfig {
     /// 启用跨模型兼容性检查 (Cross-Model Checks)
     #[serde(default = "default_true")]
     pub enable_cross_model_checks: bool,
+
+    /// 启用上下文用量缩放 (Context Usage Scaling)
+    /// 用于解决客户端因 Gemini 上下文过大而错误触发压缩的问题
+    #[serde(default = "default_true")]
+    pub enable_usage_scaling: bool,
 }
 
 impl Default for ExperimentalConfig {
@@ -139,6 +143,7 @@ impl Default for ExperimentalConfig {
             enable_signature_cache: true,
             enable_tool_loop_recovery: true,
             enable_cross_model_checks: true,
+            enable_usage_scaling: true,
         }
     }
 }
